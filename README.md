@@ -44,6 +44,10 @@ Usage:
            app:src="@drawable/capguy" />  
 
 
+**demo**
+
+![Output sample](https://github.com/Ramachandrajoshi/SpriteSheetRunner/raw/master/demo/demo.gif)
+
 **spriteSheet credits:**  
 https://www.codeandweb.com/texturepacker/tutorials/animate-sprites-in-css-with-texturepacker  
 https://gamedevelopment.tutsplus.com/tutorials/an-introduction-to-spritesheet-animation--gamedev-13099  
