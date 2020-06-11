@@ -7,24 +7,23 @@ you can run the sprite sheet FPS animation with just from xml layout
 Install:
 Add it in your root build.gradle at the end of repositories
 
-	```allprojects {
+	allprojects {
 		repositories {
 			...
 			maven { url 'https://jitpack.io' }
 		}
-	}```
+	}
 
 Add the dependency
 
-	```dependencies {
+	dependencies {
 	        ...
 	        implementation 'com.github.Ramachandrajoshi:SpriteSheetRunner:1.0.0'
-	}```
+	}
 
 
 Usage:
-
-``` <com.codyzen.spriterunner.SpriteView
+         <com.codyzen.spriterunner.SpriteView
            android:layout_width="0dp"
            android:layout_height="match_parent"
            android:layout_weight="1"
@@ -32,7 +31,7 @@ Usage:
            app:fps="8"
            app:rows="1"
            app:lastFrame="6"
-           app:src="@drawable/capguy" />```
+           app:src="@drawable/capguy" />
 
 
 
