@@ -26,7 +26,7 @@ class SpriteView(context: Context,attrs: AttributeSet?) : View(context, attrs) {
     private val srcFrame = Rect()
     private val dstFrame = Rect()
     private var timer = Timer()
-
+    private var currentFrame = 0
 
 
     init {
@@ -79,15 +79,16 @@ class SpriteView(context: Context,attrs: AttributeSet?) : View(context, attrs) {
             dstFrame.bottom = height
 
             canvas?.drawBitmap(image!!, srcFrame, dstFrame, null)
-            if(lastFrame == (renderRow * renderColumn)){
-                renderRow = 0
-                renderColumn = 0
-                return
-            }
             if (renderColumn == columns - 1 && !isFixedRow) {
                 renderRow = ++renderRow % rows
             }
             renderColumn = ++renderColumn % columns
+            currentFrame++
+            if(lastFrame == currentFrame){
+                renderRow = if(isFixedRow) renderRow else 0
+                renderColumn = 0
+                currentFrame = 0
+            }
         }
     }
 }

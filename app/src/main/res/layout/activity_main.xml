@@ -1,18 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="2"
     tools:context=".MainActivity">
+<LinearLayout
+    android:layout_weight="1"
+    android:weightSum="2"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="0dp">
+    <com.codyzen.spriterunner.SpriteView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:columns="8"
+        app:fps="8"
+        app:rows="1"
+        app:lastFrame="6"
+        app:src="@drawable/capguy" />
+    <com.codyzen.spriterunner.SpriteView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:src="@drawable/spritesheet" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+</LinearLayout>
+    <LinearLayout
+        android:layout_weight="1"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <com.codyzen.spriterunner.SpriteView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:columns="13"
+            app:fps="2"
+            app:rows="21"
+            app:isFixedRow="true"
+            app:renderRow="20"
+            app:lastFrame="4"
+            app:src="@drawable/sprite" />
+        <com.codyzen.spriterunner.SpriteView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:lastFrame="14"
+            app:src="@drawable/alen_walk" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</LinearLayout>
