@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SpriteView">
+        <attr name="src" format="integer"/>
+        <attr name="columns" format="integer"/>
+        <attr name="rows" format="integer"/>
+        <attr name="isFixedRow" format="boolean"/>
+        <attr name="fps" format="integer"/>
+        <attr name="lastFrame" format="integer"/>
+        <attr name="renderRow" format="integer"/>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,3 @@
+rootProject.name='SpriteSheetView'
+include ':app'
+include ':spriterunner'
