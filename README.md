@@ -1,7 +1,9 @@
 
 [![](https://jitpack.io/v/Ramachandrajoshi/SpriteSheetRunner.svg)](https://jitpack.io/#Ramachandrajoshi/SpriteSheetRunner)  
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 **SpriteSheetRunner**
+
 Create 2d FPS animations using Sprite Sheets.
 
 you can run the sprite sheet FPS animation by adding in xml layout file
