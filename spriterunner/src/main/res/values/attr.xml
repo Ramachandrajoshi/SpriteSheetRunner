@@ -8,5 +8,7 @@
         <attr name="fps" format="integer"/>
         <attr name="lastFrame" format="integer"/>
         <attr name="renderRow" format="integer"/>
+        <attr name="autoPlay" format="boolean"/>
+        <!--        <attr name="cycles" format="integer"/>-->
     </declare-styleable>
 </resources>

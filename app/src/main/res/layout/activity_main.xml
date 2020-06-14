@@ -39,19 +39,25 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:columns="13"
-            app:fps="2"
-            app:rows="21"
-            app:isFixedRow="true"
-            app:renderRow="20"
-            app:lastFrame="4"
-            app:src="@drawable/sprite" />
-        <com.codyzen.spriterunner.SpriteView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            app:columns="6"
+            app:fps="4"
+            app:rows="4"
             app:lastFrame="14"
-            app:src="@drawable/alen_walk" />
+            app:src="@drawable/bow" />
+       <FrameLayout
+           android:layout_weight="1"
+           android:layout_width="0dp"
+           android:layout_height="match_parent">
+
+           <com.codyzen.spriterunner.SpriteView
+               android:id="@+id/explodeSprite"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               app:rows="8"
+               app:columns="8"
+               app:src="@drawable/tile" />
+       </FrameLayout>
 
     </LinearLayout>
 </LinearLayout>
