@@ -26,7 +26,7 @@ Add the dependency  in app level build.gradle
 
      dependencies {  
                ...  
-               implementation 'com.github.Ramachandrajoshi:SpriteSheetRunner:1.0.1'  
+               implementation 'com.github.Ramachandrajoshi:SpriteSheetRunner:1.0.2'  
        }  
 
 
