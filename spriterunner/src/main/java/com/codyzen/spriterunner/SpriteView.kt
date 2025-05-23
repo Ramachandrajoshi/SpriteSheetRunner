@@ -9,6 +9,7 @@ import android.os.Looper
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.content.withStyledAttributes
 
 class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     var image: Bitmap? = null
@@ -45,10 +46,6 @@ class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
     var lastFrame = columns * rows // Initial calculation
     var isFixedRow = false
     var autoPlay = true
-    val isRunning: Boolean
-        get() {
-            return running
-        }
     var stateChangeListener: StateChangeListener? = null
 
     var renderRow = 0
@@ -74,33 +71,33 @@ class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
         lastFrame = columns * rows
 
         if (attrs != null) {
-            val a = context.obtainStyledAttributes(
+            context.withStyledAttributes(
                 attrs, R.styleable.SpriteView, 0, 0
-            )
-            image = a.getDrawable(R.styleable.SpriteView_src)?.toBitmap()
-            
-            // Columns and Rows must be set before calculating spriteWidth/Height and lastFrame from XML
-            columns = a.getInt(R.styleable.SpriteView_columns, columns) // Uses setter
-            rows = a.getInt(R.styleable.SpriteView_rows, rows) // Uses setter
-            
-            // Recalculate dependent properties if image is available
-            image?.let {
-                // Setters for columns/rows already handle this if image is set before them.
-                // If image is set after, these need to be called.
-                // For safety, recalculate here after all are known.
-                spriteWidth = it.width.toDouble() / columns
-                spriteHeight = it.height.toDouble() / rows
+            ) {
+                image = getDrawable(R.styleable.SpriteView_src)?.toBitmap()
+
+                // Columns and Rows must be set before calculating spriteWidth/Height and lastFrame from XML
+                columns = getInt(R.styleable.SpriteView_columns, columns) // Uses setter
+                rows = getInt(R.styleable.SpriteView_rows, rows) // Uses setter
+
+                // Recalculate dependent properties if image is available
+                image?.let {
+                    // Setters for columns/rows already handle this if image is set before them.
+                    // If image is set after, these need to be called.
+                    // For safety, recalculate here after all are known.
+                    spriteWidth = it.width.toDouble() / columns
+                    spriteHeight = it.height.toDouble() / rows
+                }
+
+                // FPS and lastFrame from XML, using current values as defaults for getInt
+                fps = getInt(R.styleable.SpriteView_fps, fps) // Uses setter
+                lastFrame = getInt(R.styleable.SpriteView_lastFrame, lastFrame)
+
+                renderRow = getInt(R.styleable.SpriteView_renderRow, renderRow)
+                isFixedRow = getBoolean(R.styleable.SpriteView_isFixedRow, isFixedRow)
+                autoPlay = getBoolean(R.styleable.SpriteView_autoPlay, autoPlay)
+
             }
-
-            // FPS and lastFrame from XML, using current values as defaults for getInt
-            fps = a.getInt(R.styleable.SpriteView_fps, fps) // Uses setter
-            lastFrame = a.getInt(R.styleable.SpriteView_lastFrame, lastFrame)
-
-            renderRow = a.getInt(R.styleable.SpriteView_renderRow, renderRow)
-            isFixedRow = a.getBoolean(R.styleable.SpriteView_isFixedRow, isFixedRow)
-            autoPlay = a.getBoolean(R.styleable.SpriteView_autoPlay, autoPlay)
-            
-            a.recycle()
             if (autoPlay)
                 start()
         }
@@ -111,14 +108,10 @@ class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
     fun start() {
         stop() // Resets animationRunnable and running state
 
-        val currentImage = image ?: return // Null safety for image
-        
+        image ?: return // Null safety for image
+
         // Ensure columns and rows are positive before calculating sprite dimensions
         if (columns <= 0 || rows <= 0) return
-        
-        // Sprite dimensions are now updated via setters or init block
-        // spriteWidth = currentImage.width.toDouble() / columns
-        // spriteHeight = currentImage.height.toDouble() / rows
 
         val frameDelay = (1000 / fps).toLong()
         if (frameDelay <= 0) { // Safety check for delay

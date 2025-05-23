@@ -14,10 +14,10 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginBottom="16dp"
-        app:src="@drawable/sample_sprite_sheet"
-        app:columns="4"
+        app:autoPlay="true"
+        app:columns="6"
         app:rows="4"
-        app:autoPlay="false" />
+        app:src="@drawable/bow" />
 
     <LinearLayout
         android:layout_width="wrap_content"

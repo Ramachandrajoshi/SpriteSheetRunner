@@ -3,6 +3,7 @@ package com.codyzen.spritesheetrunner
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.graphics.BitmapFactory // Added for BitmapFactory
+import com.codyzen.spriterunner.BitMapUtils
 import com.codyzen.spritesheetrunner.databinding.ActivityMainBinding
 import com.codyzen.spriterunner.StateChangeListener // Added for StateChangeListener
 // Removed: import com.codyzen.spriterunner.SpriteView // SpriteView is accessed via binding
@@ -20,11 +21,13 @@ class MainActivity : AppCompatActivity(), StateChangeListener { // Implement Sta
 
         // Attempt to load a sample bitmap
         try {
-            // Assuming R.drawable.sample_sprite_sheet exists.
-            // If not, this will throw a Resources$NotFoundException.
-            // The R class for the app module is com.codyzen.spritesheetrunner.R
-            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.sample_sprite_sheet)
+//            // Assuming R.drawable.sample_sprite_sheet exists.
+//            // If not, this will throw a Resources$NotFoundException.
+//            // The R class for the app module is com.codyzen.spritesheetrunner.R
+            val bitmap = BitMapUtils.decodeSampledBitmapFromResource(resources, R.drawable.tile, 600, 600)
             binding.spriteViewDemo.image = bitmap
+            binding.spriteViewDemo.rows = 8
+            binding.spriteViewDemo.columns = 8
             binding.textviewStatus.text = "Status: Image loaded. Ready."
         } catch (e: Exception) {
             // Log the exception or handle it more gracefully if needed
