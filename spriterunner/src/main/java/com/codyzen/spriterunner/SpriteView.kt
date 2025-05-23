@@ -122,7 +122,7 @@ class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
         currentFrame = 0
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         if (image != null) {
             val srcX = renderColumn * spriteWidth
             val srcY = renderRow * spriteHeight
@@ -136,7 +136,7 @@ class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
             dstFrame.right = width
             dstFrame.bottom = height
 
-            canvas?.drawBitmap(image!!, srcFrame, dstFrame, null)
+            canvas.drawBitmap(image!!, srcFrame, dstFrame, null)
             if (renderColumn == columns - 1 && !isFixedRow) {
                 renderRow = ++renderRow % rows
             }
