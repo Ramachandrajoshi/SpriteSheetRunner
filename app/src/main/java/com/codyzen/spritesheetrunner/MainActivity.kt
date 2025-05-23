@@ -2,15 +2,20 @@ package com.codyzen.spritesheetrunner
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import com.codyzen.spriterunner.SpriteView
-import com.codyzen.spriterunner.StateChangeListener
-import kotlinx.android.synthetic.main.activity_main.*
+// Removed duplicate: import androidx.appcompat.app.AppCompatActivity
+// Removed: import android.view.View
+// Removed: import com.codyzen.spriterunner.SpriteView
+// Removed: import com.codyzen.spriterunner.StateChangeListener
+// Removed: import kotlinx.android.synthetic.main.activity_main.*
+import com.codyzen.spritesheetrunner.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 }
