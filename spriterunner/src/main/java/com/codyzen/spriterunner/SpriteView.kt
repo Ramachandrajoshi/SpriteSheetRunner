@@ -9,29 +9,32 @@ import android.os.Looper
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.graphics.drawable.toBitmap
-// Removed: import java.util.*
-// Removed: import kotlin.concurrent.schedule
-
 
 class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     var image: Bitmap? = null
     var spriteWidth = 0.0
+        private set
     var spriteHeight = 0.0
+        private set
 
     var columns = 1 // Default to 1, will be set properly in init or setters
         set(value) {
             field = if (value > 0) value else 1 // Ensure at least 1
-            spriteWidth = image?.width?.toDouble()?.div(field) ?: 0.0
+            // Update spriteWidth when columns change, if image is available
+            image?.let {
+                spriteWidth = it.width.toDouble() / field
+            }
             lastFrame = field * rows
-            // Consider if fps should be automatically updated here or only explicitly
         }
 
     var rows = 1 // Default to 1
         set(value) {
             field = if (value > 0) value else 1 // Ensure at least 1
-            spriteHeight = image?.height?.toDouble()?.div(field) ?: 0.0
+            // Update spriteHeight when rows change, if image is available
+            image?.let {
+                spriteHeight = it.height.toDouble() / field
+            }
             lastFrame = columns * field
-            // Consider if fps should be automatically updated here or only explicitly
         }
 
     var fps = 1 // Default to 1, ensure it's positive
@@ -49,8 +52,12 @@ class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
     var stateChangeListener: StateChangeListener? = null
 
     var renderRow = 0
+        private set
     var renderColumn = 0
+        private set
     var currentFrame = 0
+        private set
+        
     private var running = false
     private val srcFrame = Rect()
     private val dstFrame = Rect()
@@ -78,6 +85,9 @@ class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
             
             // Recalculate dependent properties if image is available
             image?.let {
+                // Setters for columns/rows already handle this if image is set before them.
+                // If image is set after, these need to be called.
+                // For safety, recalculate here after all are known.
                 spriteWidth = it.width.toDouble() / columns
                 spriteHeight = it.height.toDouble() / rows
             }
@@ -85,7 +95,6 @@ class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
             // FPS and lastFrame from XML, using current values as defaults for getInt
             fps = a.getInt(R.styleable.SpriteView_fps, fps) // Uses setter
             lastFrame = a.getInt(R.styleable.SpriteView_lastFrame, lastFrame)
-
 
             renderRow = a.getInt(R.styleable.SpriteView_renderRow, renderRow)
             isFixedRow = a.getBoolean(R.styleable.SpriteView_isFixedRow, isFixedRow)
@@ -106,9 +115,10 @@ class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
         
         // Ensure columns and rows are positive before calculating sprite dimensions
         if (columns <= 0 || rows <= 0) return
-
-        spriteWidth = currentImage.width.toDouble() / columns
-        spriteHeight = currentImage.height.toDouble() / rows
+        
+        // Sprite dimensions are now updated via setters or init block
+        // spriteWidth = currentImage.width.toDouble() / columns
+        // spriteHeight = currentImage.height.toDouble() / rows
 
         val frameDelay = (1000 / fps).toLong()
         if (frameDelay <= 0) { // Safety check for delay
@@ -122,7 +132,7 @@ class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
                 if (lastFrame == currentFrame) {
                     resetFrames()
                 }
-                currentFrame++
+                currentFrame++ // currentFrame is now private set, update it here
                 
                 if (running) { // Check if animation should still be running before posting next
                     animationHandler.postDelayed(this, frameDelay)
@@ -146,7 +156,6 @@ class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
 
         resetFrames()
         invalidate() // Redraw in reset state
-        // running = false; // This is now handled in pause()
     }
 
     fun pause() {
@@ -165,9 +174,7 @@ class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
         super.onDraw(canvas) // Important to call super
         val currentImage = image ?: return // Null safety for image
 
-        if (!running && currentFrame == 0) { // If stopped and reset, draw initial frame or clear
-            // Optionally draw the very first frame (renderColumn=0, renderRow=0 if !isFixedRow)
-            // or leave blank. Current logic will draw the current (reset) frame.
+        if (!running && currentFrame == 0) { 
              val srcX = renderColumn * spriteWidth
              val srcY = renderRow * spriteHeight
              srcFrame.left = srcX.toInt()
@@ -180,10 +187,10 @@ class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
              dstFrame.right = width
              dstFrame.bottom = height
              canvas.drawBitmap(currentImage, srcFrame, dstFrame, null)
-            return // Don't advance frames if not running
+            return 
         }
         
-        if(spriteWidth <=0 || spriteHeight <=0) return // Avoid division by zero if image dimensions are zero
+        if(spriteWidth <=0 || spriteHeight <=0) return
 
         val srcX = renderColumn * spriteWidth
         val srcY = renderRow * spriteHeight
@@ -199,16 +206,13 @@ class SpriteView(context: Context, attrs: AttributeSet?) : View(context, attrs) 
 
         canvas.drawBitmap(currentImage, srcFrame, dstFrame, null)
         
-        // Frame update logic should ideally be tied to the animationRunnable,
-        // but for View invalidation, onDraw is where drawing happens.
-        // We only update renderColumn/Row if running.
         if (running) {
             if (renderColumn == columns - 1 && !isFixedRow) {
                 renderRow = ++renderRow % rows
             }
             renderColumn = ++renderColumn % columns
 
-            post { // UI thread operation
+            post { 
                 stateChangeListener?.onUpdateFrame(this)
             }
         }
