@@ -5,59 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="2"
+    android:gravity="center_horizontal"
+    android:padding="16dp"
     tools:context=".MainActivity">
-<LinearLayout
-    android:layout_weight="1"
-    android:weightSum="2"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="0dp">
-    <com.codyzen.spriterunner.SpriteView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        app:columns="8"
-        app:fps="8"
-        app:rows="1"
-        app:lastFrame="6"
-        app:src="@drawable/capguy" />
-    <com.codyzen.spriterunner.SpriteView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        app:src="@drawable/spritesheet" />
 
-</LinearLayout>
+    <com.codyzen.spriterunner.SpriteView
+        android:id="@+id/sprite_view_demo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="16dp"
+        app:autoPlay="true"
+        app:columns="6"
+        app:rows="4"
+        app:src="@drawable/bow" />
+
     <LinearLayout
-        android:layout_weight="1"
-        android:weightSum="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
-        <com.codyzen.spriterunner.SpriteView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:columns="6"
-            app:fps="4"
-            app:rows="4"
-            app:lastFrame="14"
-            app:src="@drawable/bow" />
-       <FrameLayout
-           android:layout_weight="1"
-           android:layout_width="0dp"
-           android:layout_height="match_parent">
+        android:layout_marginBottom="16dp">
 
-           <com.codyzen.spriterunner.SpriteView
-               android:id="@+id/explodeSprite"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_gravity="center"
-               app:rows="8"
-               app:columns="8"
-               app:src="@drawable/tile" />
-       </FrameLayout>
+        <Button
+            android:id="@+id/button_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Start" />
 
+        <Button
+            android:id="@+id/button_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Stop" />
+
+        <Button
+            android:id="@+id/button_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pause" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textview_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status: Idle"
+        android:textSize="18sp" />
+
 </LinearLayout>
